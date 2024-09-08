@@ -3,6 +3,12 @@
     <gazebo reference="base_link">
         <material>Gazebo/Black</material>
     </gazebo>
+    <gazebo reference="left_wheel">
+        <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="right_wheel">
+        <material>Gazebo/Grey</material>
+    </gazebo>
     <!-- Links-->
     <!-- Link: base_link -->
     <link name="base_link">
