@@ -1,6 +1,8 @@
 <?xml version="1.0" ?>
-
 <robot name="robot">
+    <gazebo reference="base_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
     <!-- Links-->
     <!-- Link: base_link -->
     <link name="base_link">
