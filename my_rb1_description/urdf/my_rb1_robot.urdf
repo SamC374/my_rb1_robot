@@ -9,6 +9,9 @@
     <gazebo reference="right_wheel">
         <material>Gazebo/Grey</material>
     </gazebo>
+    <gazebo reference="front_laser">
+        <material>Gazebo/Red</material>
+    </gazebo>
 
     <!-- Links-->
     <!-- Link: base_link -->
@@ -53,13 +56,13 @@
     <link name="front_laser">
         <visual>
             <geometry>
-                <cylinder radius="0.0" length="0.0"/>
+                <box size="0.025 0.025 0.025" />
                 <origin xyz="0 0 0" rpy="0 0 0"/>
             </geometry>
         </visual>
         <collision>
             <geometry>
-                <cylinder radius="0.0" length="0.0"/>
+                <box size="0.025 0.025 0.025" />
             </geometry>
         </collision>
     </link>
@@ -211,7 +214,7 @@
   <gazebo reference="left_wheel">
     <mu1>2</mu1>
     <mu2>2</mu2>
-    <kp>20000.0</kp>
+    <kp>15000.0</kp>
     <kd>150.0</kd>
     <fdir1>1 0 0</fdir1>
     <minDepth>0.001</minDepth>
@@ -221,7 +224,7 @@
   <gazebo reference="right_wheel">
     <mu1>2</mu1>
     <mu2>2</mu2>
-    <kp>20000.0</kp>
+    <kp>15000.0</kp>
     <kd>150.0</kd>
     <fdir1>1 0 0</fdir1>
     <minDepth>0.001</minDepth>
@@ -231,7 +234,7 @@
   <gazebo reference="front_caster">
     <mu1>0.0</mu1>
     <mu2>0.0</mu2>
-    <kp>20000.0</kp>
+    <kp>15000.0</kp>
     <kd>150.0</kd>
     <minDepth>0.001</minDepth>
     <maxVel>1.0</maxVel>
@@ -241,7 +244,7 @@
   <gazebo reference="back_caster">
     <mu1>0.0</mu1>
     <mu2>0.0</mu2>
-    <kp>20000.0</kp>
+    <kp>15000.0</kp>
     <kd>150.0</kd>
     <minDepth>0.001</minDepth>
     <maxVel>1.0</maxVel>
