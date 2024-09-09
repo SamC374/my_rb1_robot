@@ -7,7 +7,7 @@
     <arg name="model_name" default="my_rb1_robot"/>
     <arg name="x" default="-0.45"/>
     <arg name="y" default="-1.35"/>
-    <arg name="z" default="0.0"/>
+    <arg name="z" default="0.025"/>
 
     <!-- Warehouse world -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
