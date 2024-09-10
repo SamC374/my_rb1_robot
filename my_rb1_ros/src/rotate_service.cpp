@@ -49,26 +49,25 @@ public:
 
   bool rotate_robot_callback(my_custom_srv_msg_pkg::Rotate::Request &req,
                              my_custom_srv_msg_pkg::Rotate::Response &res) {
-    if (new_rot_target) {
-      new_rot_target = false;
-      target_yaw =
-          normalize_angle(static_cast<float>(req.degrees) * M_PI / 180.0) +
-          curr_yaw;
-    }
-
-    float command_yaw = target_yaw - curr_yaw;
-    ROS_INFO("target_yaw:%.2f, command_yaw:%.2f", target_yaw, command_yaw);
-    if (abs(command_yaw - target_yaw) > 0.0) {
-      twist_msg.angular.z = 0.1 * target_yaw / target_yaw;
+    int degrees_int = req.degrees;
+    int hz = 10;
+    ros::Rate rate(hz); // Control loop rate
+    float angular_speed =
+        static_cast<float>(degrees_int) * static_cast<float>(hz);
+    for (int i = 0; i < abs(degrees_int); i++) {
+      ROS_INFO("Elapsed yaw:%i", i);
+      twist_msg.angular.z = angular_speed;
       twist_pub.publish(twist_msg);
-    } else {
-      res.result = "Rotation Completed";
-      new_rot_target = true;
+      rate.sleep();    // Wait for the next iteration
+      ros::spinOnce(); // Process incoming messages
     }
+    twist_msg.angular.z = 0.0;
+    twist_pub.publish(twist_msg);
+    res.result = "Rotation Completed!";
     return true;
   }
 
-  float normalize_angle(float angle) {
+  float normalize_angle(int angle) {
     // Normalize angle to be within the range [-PI, PI]
     while (angle > M_PI)
       angle -= 2 * M_PI;
