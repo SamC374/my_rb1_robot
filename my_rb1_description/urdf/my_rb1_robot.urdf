@@ -203,28 +203,27 @@
 
     <gazebo reference="base_link">
         <material>Gazebo/Black</material>
-        <gravity>0</gravity>
     </gazebo>
 
     <gazebo reference="front_laser">
         <material>Gazebo/Red</material>
     </gazebo>
 
-  <gazebo reference="left_wheel">
-    <material>Gazebo/Grey</material>
-  </gazebo>
+    <gazebo reference="left_wheel">
+        <material>Gazebo/Grey</material>
+    </gazebo>
 
-  <gazebo reference="right_wheel">
-    <material>Gazebo/Grey</material>
-  </gazebo>
+    <gazebo reference="right_wheel">
+        <material>Gazebo/Grey</material>
+    </gazebo>
 
-  <gazebo reference="front_caster">
-    <material>Gazebo/Grey</material>
-  </gazebo>
+    <gazebo reference="front_caster">
+        <material>Gazebo/Grey</material>
+    </gazebo>
 
-  <gazebo reference="back_caster">
-    <material>Gazebo/Grey</material>
-  </gazebo>
+    <gazebo reference="back_caster">
+        <material>Gazebo/Grey</material>
+    </gazebo>
 
 
 
