@@ -7,13 +7,13 @@
     <arg name="model_name" default="my_rb1_robot"/>
     <arg name="x" default="-0.45"/>
     <arg name="y" default="-1.35"/>
-    <arg name="z" default="0.025"/>
+    <arg name="z" default="0.1"/>
 
     <!-- Warehouse world -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
 		<arg name="world_name" value="$(arg world_name)"/>
 		<arg name="debug" value="$(arg debug)" />
-		<arg name="paused" value="true"/>
+		<arg name="paused" value="false"/>
 		<arg name="use_sim_time" value="true"/>
 		<arg name="headless" value="false"/>
 		<arg name="verbose" value="true"/>
@@ -23,7 +23,6 @@
     <param name="robot_description" command="cat $(arg urdf_file)"/>
 
     <!-- Spawn the robot model into Gazebo -->
-    <!-- <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen" args="-param robot_description -urdf -model my_robot" /> -->
     <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" output="screen"
           args="-urdf -param robot_description -model $(arg model_name) -x $(arg x) -y $(arg y) -z $(arg z)" />
     

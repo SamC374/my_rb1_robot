@@ -18,9 +18,9 @@
             </geometry>
         </collision>
         <inertial>
-            <mass value="10.0"/>
+            <mass value="5.0"/>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <inertia ixx="0.23125" ixy="0" ixz="0" iyy="0.23125" iyz="0" izz="0.3125"/>
+            <inertia ixx="0.115625" ixy="0" ixz="0" iyy="0.115625" iyz="0" izz="0.15625"/>
         </inertial>
     </link>
 
@@ -66,14 +66,15 @@
             <origin xyz="0 0 0" rpy="1.57 0 0"/>
         </visual>
         <collision>
+            <origin xyz="0 0 0" rpy="1.57 0 0"/>
             <geometry>
                 <cylinder radius="0.025" length="0.05"/>
             </geometry>
         </collision>
         <inertial>
-            <mass value="7.25"/>
+            <mass value="9.5"/>
             <origin xyz="0 0 0" rpy="1.57 0 0"/>
-            <inertia ixx="0.00264322916666667" ixy="0" ixz="0" iyy="0.00264322916666667" iyz="0" izz="0.002265625"/>
+            <inertia ixx="0.003463541667" ixy="0" ixz="0" iyy="0.003463541667" iyz="0" izz="0.00296875"/>
         </inertial>
     </link>
     <link name="right_wheel">
@@ -87,14 +88,15 @@
             <origin xyz="0 0 0" rpy="1.57 0 0"/>
         </visual>
         <collision>
+            <origin xyz="0 0 0" rpy="1.57 0 0"/>
             <geometry>
                 <cylinder radius="0.025" length="0.05"/>
             </geometry>
         </collision>
         <inertial>
-            <mass value="7.25"/>
+            <mass value="9.5"/>
             <origin xyz="0 0 0" rpy="1.57 0 0"/>
-            <inertia ixx="0.00264322916666667" ixy="0" ixz="0" iyy="0.00264322916666667" iyz="0" izz="0.002265625"/>
+            <inertia ixx="0.003463541667" ixy="0" ixz="0" iyy="0.003463541667" iyz="0" izz="0.00296875"/>
         </inertial>
     </link>
 
@@ -115,9 +117,9 @@
             </geometry>
         </collision>
         <inertial>
-            <mass value="0.25"/>
+            <mass value="0.5"/>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <inertia ixx="0.0000625" ixy="0" ixz="0" iyy="0.0000625" iyz="0" izz="0.0000625"/>
+            <inertia ixx="0.000125" ixy="0" ixz="0" iyy="0.000125" iyz="0" izz="0.000125"/>
         </inertial>
     </link>
 
@@ -125,7 +127,6 @@
         <visual>
             <geometry>
                 <sphere radius="0.025"/>
-                <!-- Radius = 2.5 cm -->
             </geometry>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <material name="DarkBlue">
@@ -138,9 +139,9 @@
             </geometry>
         </collision>
         <inertial>
-            <mass value="0.25"/>
+            <mass value="0.5"/>
             <origin xyz="0 0 0" rpy="0 0 0"/>
-            <inertia ixx="0.0000625" ixy="0" ixz="0" iyy="0.0000625" iyz="0" izz="0.0000625"/>
+            <inertia ixx="0.000125" ixy="0" ixz="0" iyy="0.000125" iyz="0" izz="0.000125"/>
         </inertial>
     </link>
 
@@ -165,13 +166,9 @@
         <parent link="base_link"/>
         <child link="left_wheel"/>
         <origin xyz="0 0.2 -0.15" rpy="0 0 0"/>
-        <axis rpy="0 0 0" xyz="0 1 0">
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>8000.0</spring_stiffness>
-            <damping>5.0</damping>
-        </axis>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
         <limit effort="1000.0" velocity="1000.0"/>
-        <joint_properties damping="1.0" friction="1.0" />
+        <joint_properties damping="0.0" friction="0.0" />
     </joint>
 
     <!-- Right wheel joint -->
@@ -179,38 +176,26 @@
         <parent link="base_link"/>
         <child link="right_wheel"/>
         <origin xyz="0 -0.2 -0.15" rpy="0 0 0"/>
-        <axis rpy="0 0 0" xyz="0 1 0">
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>8000.0</spring_stiffness>
-            <damping>5.0</damping>
-        </axis>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
         <limit effort="1000.0" velocity="1000.0"/>
-        <joint_properties damping="1.0" friction="1.0" />
+        <joint_properties damping="0.0" friction="0.0" />
     </joint>
 
     <!-- Front caster joint -->
-    <joint name="front_caster_joint" type="continuous">
+    <joint name="front_caster_joint" type="fixed">
         <parent link="base_link"/>
         <child link="front_caster"/>
         <origin xyz="0.1 0.0 -0.15" rpy="0 0 0"/>
-        <axis rpy="0 0 0" xyz="0 1 0">
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>8000.0</spring_stiffness>
-            <damping>5.0</damping>
-        </axis>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
         <joint_properties damping="1.0" friction="0.0" />
     </joint>
 
     <!-- back caster joint -->
-    <joint name="back_caster_joint" type="continuous">
+    <joint name="back_caster_joint" type="fixed">
         <parent link="base_link"/>
         <child link="back_caster"/>
         <origin xyz="-0.1 0.0 -0.15" rpy="0 0 0"/>
-        <axis rpy="0 0 0" xyz="0 1 0">
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>8000.0</spring_stiffness>
-            <damping>5.0</damping>
-        </axis>
+        <axis rpy="0 0 0" xyz="0 1 0"/>
         <joint_properties damping="1.0" friction="0.0" />
     </joint>
 
@@ -218,7 +203,7 @@
 
     <gazebo reference="base_link">
         <material>Gazebo/Black</material>
-        <!-- <gravity>0</gravity> -->
+        <gravity>0</gravity>
     </gazebo>
 
     <gazebo reference="front_laser">
@@ -227,44 +212,18 @@
 
   <gazebo reference="left_wheel">
     <material>Gazebo/Grey</material>
-    <mu1>2</mu1>
-    <mu2>2</mu2>
-    <kp>15000.0</kp>
-    <kd>150.0</kd>
-    <fdir1>1 0 0</fdir1>
-    <minDepth>0.0001</minDepth>
-    <material>Gazebo/FlatBlack</material>
   </gazebo>
 
   <gazebo reference="right_wheel">
     <material>Gazebo/Grey</material>
-    <mu1>2</mu1>
-    <mu2>2</mu2>
-    <kp>15000.0</kp>
-    <kd>150.0</kd>
-    <fdir1>1 0 0</fdir1>
-    <minDepth>0.0001</minDepth>
-    <material>Gazebo/FlatBlack</material>
   </gazebo>
 
   <gazebo reference="front_caster">
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-    <kp>15000.0</kp>
-    <kd>150.0</kd>
-    <minDepth>0.0001</minDepth>
-    <maxVel>1.0</maxVel>
-    <material>Gazebo/FlatBlack</material>
+    <material>Gazebo/Grey</material>
   </gazebo>
 
   <gazebo reference="back_caster">
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-    <kp>15000.0</kp>
-    <kd>150.0</kd>
-    <minDepth>0.0001</minDepth>
-    <maxVel>1.0</maxVel>
-    <material>Gazebo/FlatBlack</material>
+    <material>Gazebo/Grey</material>
   </gazebo>
 
 
@@ -280,15 +239,15 @@
       <rightJoint>right_wheel_joint</rightJoint>
       <wheelSeparation>0.4</wheelSeparation>
       <wheelDiameter>0.05</wheelDiameter>
-      <wheelTorque>20</wheelTorque>
+      <wheelTorque>30</wheelTorque>
       <commandTopic>/cmd_vel</commandTopic>
       <odometryTopic>/odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <publishWheelTF>false</publishWheelTF>
       <publishOdomTF>true</publishOdomTF>
-      <robotBaseFrame>base_link</robotBaseFrame>
+      <robotBaseFrame>base_footprint</robotBaseFrame>
       <publishWheelJointState>true</publishWheelJointState>
-      <wheelAcceleration>true</wheelAcceleration>
+      <wheelAcceleration>0.1</wheelAcceleration>
       <odometrySource>world</odometrySource>
       <publishTf>true</publishTf>
     </plugin>
@@ -298,7 +257,7 @@
     <gazebo reference="front_laser">
       <sensor type="ray" name="laser_sensor">
         <pose>0 0 0 0 0 0</pose>
-        <visualize>true</visualize>
+        <visualize>false</visualize>
         <update_rate>50</update_rate>
         <ray>
           <scan>
