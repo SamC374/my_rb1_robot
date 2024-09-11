@@ -14,7 +14,7 @@ private:
   ros::Subscriber odom_sub;
   ros::ServiceServer rotate_service;
   float target_yaw, curr_yaw;
-  bool new_rot_target = true;
+  bool reached_target_yaw = false;
   geometry_msgs::Twist twist_msg;
 
 public:
@@ -43,37 +43,46 @@ public:
     double roll, pitch, yaw;
     mat.getRPY(roll, pitch, yaw);
     curr_yaw = yaw;
-
+    rotate_robot();
     // ROS_INFO("curr_yaw:%.2f", curr_yaw);
   }
 
   bool rotate_robot_callback(my_custom_srv_msg_pkg::Rotate::Request &req,
                              my_custom_srv_msg_pkg::Rotate::Response &res) {
-    int degrees_int = req.degrees;
-    int hz = 10;
-    ros::Rate rate(hz); // Control loop rate
-    float angular_speed =
-        static_cast<float>(degrees_int) * static_cast<float>(hz);
-    for (int i = 0; i < abs(degrees_int); i++) {
-      ROS_INFO("Elapsed yaw:%i", i);
-      twist_msg.angular.z = angular_speed;
-      twist_pub.publish(twist_msg);
-      rate.sleep();    // Wait for the next iteration
-      ros::spinOnce(); // Process incoming messages
+    target_yaw =
+        normalize_angle(static_cast<float>(req.degrees) * M_PI / 180.0) +
+        curr_yaw;
+    // ROS_INFO("target_yaw:%.2f", target_yaw);
+
+    if (reached_target_yaw) {
+      res.result = "Rotation completed successfully.";
     }
-    twist_msg.angular.z = 0.0;
-    twist_pub.publish(twist_msg);
-    res.result = "Rotation Completed!";
     return true;
   }
 
-  float normalize_angle(int angle) {
+  float normalize_angle(float angle) {
     // Normalize angle to be within the range [-PI, PI]
-    while (angle > M_PI)
+    if (angle > M_PI)
       angle -= 2 * M_PI;
-    while (angle < -M_PI)
+    if (angle < -M_PI)
       angle += 2 * M_PI;
     return angle;
+  }
+
+  void rotate_robot() {
+    float yaw_diff = normalize_angle(target_yaw - curr_yaw);
+    ROS_INFO("target_yaw:%.2f, curr_yaw:%.2f, yaw_diff:%.2f", target_yaw,
+             curr_yaw, yaw_diff);
+
+    if (abs(yaw_diff) > 0.0) {
+      twist_msg.angular.z = 0.5 * yaw_diff;
+      twist_pub.publish(twist_msg);
+      reached_target_yaw = false;
+    } else {
+      twist_msg.angular.z = 0.0; // Stop rotation
+      twist_pub.publish(twist_msg);
+      reached_target_yaw = true;
+    }
   }
 };
 
