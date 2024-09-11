@@ -247,7 +247,7 @@
       <publishOdomTF>true</publishOdomTF>
       <robotBaseFrame>base_footprint</robotBaseFrame>
       <publishWheelJointState>true</publishWheelJointState>
-      <wheelAcceleration>0.1</wheelAcceleration>
+      <wheelAcceleration>0.0</wheelAcceleration>
       <odometrySource>world</odometrySource>
       <publishTf>true</publishTf>
     </plugin>

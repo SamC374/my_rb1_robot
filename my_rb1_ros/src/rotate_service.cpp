@@ -1,6 +1,7 @@
 #include "geometry_msgs/Twist.h"
 #include "my_custom_srv_msg_pkg/RotateRequest.h"
 #include "nav_msgs/Odometry.h"
+#include "ros/init.h"
 #include <cmath>
 #include <my_custom_srv_msg_pkg/Rotate.h>
 #include <ros/ros.h>
@@ -15,7 +16,9 @@ private:
   ros::ServiceServer rotate_service;
   float target_yaw, curr_yaw;
   bool reached_target_yaw = false;
+  bool begin_rotating = false;
   geometry_msgs::Twist twist_msg;
+  float kp = 0.5;
 
 public:
   RobotRotator(ros::NodeHandle *nh) {
@@ -43,20 +46,31 @@ public:
     double roll, pitch, yaw;
     mat.getRPY(roll, pitch, yaw);
     curr_yaw = yaw;
-    rotate_robot();
+    if (begin_rotating)
+      rotate_robot();
     // ROS_INFO("curr_yaw:%.2f", curr_yaw);
   }
 
   bool rotate_robot_callback(my_custom_srv_msg_pkg::Rotate::Request &req,
                              my_custom_srv_msg_pkg::Rotate::Response &res) {
-    target_yaw =
-        normalize_angle(static_cast<float>(req.degrees) * M_PI / 180.0) +
-        curr_yaw;
-    // ROS_INFO("target_yaw:%.2f", target_yaw);
+    int input_degrees_int = req.degrees;
+    float input_degrees_float = static_cast<float>(input_degrees_int);
+    if (abs(input_degrees_int) > 0) {
 
-    if (reached_target_yaw) {
-      res.result = "Rotation completed successfully.";
+      target_yaw =
+          normalize_angle(input_degrees_float * M_PI / 180.0 + curr_yaw);
+      ROS_INFO("target_yaw:%.2f, abs(input_degrees_int):%i", target_yaw,
+               abs(input_degrees_int));
+      begin_rotating = true;
+    } else
+      begin_rotating = false;
+    ros::Rate rate(10);
+    while (!reached_target_yaw && ros::ok()) {
+      rate.sleep();
+      ros::spinOnce();
     }
+    res.result = "Rotation completed successfully.";
+
     return true;
   }
 
@@ -71,11 +85,10 @@ public:
 
   void rotate_robot() {
     float yaw_diff = normalize_angle(target_yaw - curr_yaw);
-    ROS_INFO("target_yaw:%.2f, curr_yaw:%.2f, yaw_diff:%.2f", target_yaw,
-             curr_yaw, yaw_diff);
-
-    if (abs(yaw_diff) > 0.0) {
-      twist_msg.angular.z = 0.5 * yaw_diff;
+    if (abs(yaw_diff) > 0.001) {
+      ROS_INFO("target_yaw:%.2f, curr_yaw:%.2f, yaw_diff:%.2f", target_yaw,
+               curr_yaw, yaw_diff);
+      twist_msg.angular.z = yaw_diff * kp;
       twist_pub.publish(twist_msg);
       reached_target_yaw = false;
     } else {
