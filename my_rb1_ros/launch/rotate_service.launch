@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-    <node name="rotate_service_node" pkg="my_rb1_ros" type="rotate_service">
+    <node name="rotate_service_node" pkg="my_rb1_ros" type="rotate_service" output="screen" >
     </node>
 </launch>
